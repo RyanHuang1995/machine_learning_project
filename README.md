@@ -9,7 +9,7 @@
 ### username = ''
 ### password = ''
 ### host = 'localhost'
-### port = '3306'
+### port = ''
 ### database = 'big_mart_db'
 #
 # 3) run app.py and go to http://127.0.0.1:5000/
