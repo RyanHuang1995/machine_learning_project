@@ -75,4 +75,10 @@
 
 #data-table {font-size: 80%;}
 
-
+.table {
+  display: block;
+  height: 500px!important;
+  overflow-y: scroll!important;
+  scroll-behavior:smooth;
+  border: 3px outset rgb(26, 29, 29);
+}

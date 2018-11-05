@@ -14,6 +14,8 @@
     <!-- Custom styles for this template -->
     <!-- >link href="/assets/css/product.css" rel="stylesheet"> -->
     <link href="{{ url_for('static', filename='//assets/css/product.css') }}" rel="stylesheet">
+
+    <!-- <link rel="stylesheet" href="http://cdn.datatables.net/1.10.2/css/jquery.dataTables.min.css"></style>-->
   </head>
 
   <body>
@@ -61,17 +63,17 @@
     <div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
        
       <div class="row">
-        <div class="col-md-6 text-left bg-light shadow-sm mx-auto">
+        <div class="col-md-6 text-center bg-light shadow-sm mx-auto">
             <h2 class="display-5">Model 1 - Linear Regression</h2>
-            <p>Linear regression attempts to model the relationship between two variables by fitting a linear equation to observed data.</p>
+            <p class='text-left'>Linear regression attempts to model the relationship between two variables by fitting a linear equation to observed data.</p>
             <!-- <img src="/assets/img/test_jointplot.png" width="500" height="450"> -->
             <div id="" class="">
 
               </div>
         </div>
-        <div class="col-md-6 text-left bg-light shadow-sm mx-auto">
+        <div class="col-md-6 text-center bg-light shadow-sm mx-auto">
             <h2 class="display-5">Model 2 - Ridge Regression</h2>
-            <p>Ridge regression is a way to create a parsimonious model when the number of predictor variables in a set exceeds the number of observations, or when a data set has multicollinearity.</p>
+            <p class='text-left'>Ridge regression is a way to create a parsimonious model when the number of predictor variables in a set exceeds the number of observations, or when a data set has multicollinearity.</p>
             <br>
            
           </div>
@@ -83,17 +85,17 @@
 
 <div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
   <div class="row">
-      <div class="col-md-6 text-left bg-light shadow-sm mx-auto">
+      <div class="col-md-6 text-center bg-light shadow-sm mx-auto">
           <h2 class="display-5">Model 3 - Lasso Regression</h2>
-          <p>The Lasso is a shrinkage and selection method for linear regression. It minimizes the usual sum of squared errors, with a bound on the sum of the absolute values of the coefficients.</p>
+          <p class='text-left'>The Lasso is a shrinkage and selection method for linear regression. It minimizes the usual sum of squared errors, with a bound on the sum of the absolute values of the coefficients.</p>
          
       </div>
        
     
 
-      <div class="col-md-6 text-left bg-light shadow-sm mx-auto">
+      <div class="col-md-6 text-center bg-light shadow-sm mx-auto">
           <h2 class="display-5">Model 4 - Decision Tree</h2>
-          <p>Decision Tree is a supervised machine learning algorithm by which the data is continuously split according to a certain parameter based on predefined metrics such as information gain.</p>
+          <p class='text-left'>Decision Tree is a supervised machine learning algorithm by which the data is continuously split according to a certain parameter based on predefined metrics such as information gain.</p>
           <br>
           <!-- <img src="/assets/img/test_jointplot.png" width="500" height="450"> -->
           <div id="" class="">
@@ -107,17 +109,23 @@
     <div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
       <div class="bg-dark mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden">
         <div class="my-3 py-3">
-          <h2 class="display-5">...something goes here...</h2>
-          <p class="lead">...something goes here...</p>
-
+            <h2 class="display-5">Other</h2>
+            <p class="lead">OLS Regression Results</p>
+            <div class="bg-light shadow-sm mx-auto" style="width: 80%; height: 600px; border-radius: 21px 21px 0 0;">
+              <img src="{{ url_for('static', filename='/assets/img/ols_results.JPG') }}" class="img-fluid" alt="Responsive image">
+            </div>
         </div>
 
       </div>
 
       <div class="bg-light mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
         <div class="my-3 p-3">
-          <h2 class="display-5">...something goes here...</h2>
-          <p class="lead">...something goes here...</p>
+            <h2 class="display-5">Features Importances</h2>
+            <p class="lead">Item MRP has the highest correlation over the other features</p>
+            <div class="bg-light shadow-sm mx-auto" style="width: 80%; height: 600px; border-radius: 21px 21px 0 0;">
+              <img src="{{ url_for('static', filename='/assets/img/features_importances.png') }}" class="img-fluid" alt="Responsive image">
+            </div>
+
           
       </div>
     </div>
@@ -146,8 +154,9 @@
         <!-- <div class="bg-light shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;" id="predictionTB"> -->
           <!-- <img src="{{ url_for('static', filename='/assets/img/features_engineering_sample.JPG') }}" width="500" height="450"> -->
         <!-- </div> -->
-        <div id="" class="table-responsive table-wrapper-scroll-y text-dark">
-          <table id="prediction-table" class="table  table-light table-striped">
+       
+        <div id="" class="table-wrapper-scroll-y text-dark">
+          <table id="prediction-table" class="table  table-light table-striped table-responsive tablesorter">
             <thead class="thead-light">
               <tr>
                 
@@ -167,6 +176,7 @@
             </tbody>
           </table>
         </div>
+   
 
       </div>
     </div>
@@ -223,8 +233,12 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!-- <script src="http://tablesorter.com/addons/pager/jquery.tablesorter.pager.js"></script> -->
     <script>window.jQuery || document.write('<script src="/assets/js/jquery-slim.min.js"><\/script>')</script>
-    
+    <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> -->
+    <!-- <script type="text/javascript" src="http://cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>-->
+    <!-- <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>-->
+
     <!-- <script src="/assets/js/popper.min.js"></script>-->
     <script src="{{ url_for('static', filename='/assets/js/popper.min.js') }}"></script>
     <!--<script src="/assets/js/bootstrap.min.js"></script> -->
@@ -237,7 +251,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
-    <script src="http://tablesorter.com/addons/pager/jquery.tablesorter.pager.js"></script>
+    
 
     <!-- <script src="/assets/js/boxplot.js"></script> --> 
     <!-- <script src="{{ url_for('static', filename='/assets/js/boxplot.js') }}"></script> -->

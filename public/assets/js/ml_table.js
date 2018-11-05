@@ -38,10 +38,14 @@ function mlTB(){
     //$(document).ready(function () {
     //    $('#prediction-table').DataTable();
     //});
-    $(document).ready(function() { 
-      $('#prediction-table') 
-      .tablesorter({widthFixed: true, widgets: ['zebra']}) 
-      .tablesorterPager({container: $("#pager")}); 
-  }); 
+    //$(document).ready(function() { 
+    //  $('#prediction-table') 
+      //.tablesorter({widthFixed: true, widgets: ['zebra']}) 
+    //  .tablesorterPager({container: $("#pager")}); 
+    //});
+
+    //$(document).ready(function(){
+    //    $('#prediction-table').dataTable();
+    //});
 
   };
