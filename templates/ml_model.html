@@ -26,7 +26,7 @@
         </a>
         <a class="py-2 d-none d-md-inline-block" href="{{ url_for('index') }}" >Home</a>
         <a class="py-2 d-none d-md-inline-block" href="{{ url_for('ml_model') }}" style="color: white">ML Model</a>
-        <a class="py-2 d-none d-md-inline-block" href="#" >About US</a>
+        <a class="py-2 d-none d-md-inline-block" href="{{ url_for('about') }}" >About US</a>
         <!-- <a class="py-2 d-none d-md-inline-block" href="#">Enterprise</a>
         <a class="py-2 d-none d-md-inline-block" href="#">Support</a>
         <a class="py-2 d-none d-md-inline-block" href="#">Pricing</a>
@@ -63,7 +63,7 @@
       <div class="row">
         <div class="col-md-6 text-left bg-light shadow-sm mx-auto">
             <h2 class="display-5">Model 1 - Linear Regression</h2>
-            <p>...something goes here...</p>
+            <p>Linear regression attempts to model the relationship between two variables by fitting a linear equation to observed data.</p>
             <!-- <img src="/assets/img/test_jointplot.png" width="500" height="450"> -->
             <div id="" class="">
 
@@ -71,7 +71,7 @@
         </div>
         <div class="col-md-6 text-left bg-light shadow-sm mx-auto">
             <h2 class="display-5">Model 2 - Ridge Regression</h2>
-            <p>...something goes here...</p>
+            <p>Ridge regression is a way to create a parsimonious model when the number of predictor variables in a set exceeds the number of observations, or when a data set has multicollinearity.</p>
             <br>
            
           </div>
@@ -85,7 +85,7 @@
   <div class="row">
       <div class="col-md-6 text-left bg-light shadow-sm mx-auto">
           <h2 class="display-5">Model 3 - Lasso Regression</h2>
-          <p>...something goes here...</p>
+          <p>The Lasso is a shrinkage and selection method for linear regression. It minimizes the usual sum of squared errors, with a bound on the sum of the absolute values of the coefficients.</p>
          
       </div>
        
@@ -93,7 +93,7 @@
 
       <div class="col-md-6 text-left bg-light shadow-sm mx-auto">
           <h2 class="display-5">Model 4 - Decision Tree</h2>
-          <p>...something goes here...</p>
+          <p>Decision Tree is a supervised machine learning algorithm by which the data is continuously split according to a certain parameter based on predefined metrics such as information gain.</p>
           <br>
           <!-- <img src="/assets/img/test_jointplot.png" width="500" height="450"> -->
           <div id="" class="">
@@ -124,28 +124,50 @@
   </div>
 
     <div class="bg-dark d-md-flex flex-md-equal w-100 my-md-3 pl-md-3 text-center text-white">
-      <h2 class="display-4 class=bg-warning">Prediction</h2>
+      <h2 class="display-4 class=bg-warning">Result & Prediction</h2>
   </div>
 
     <div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
       <!-- <div class="bg-primary mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden"> -->
       <div class="bg-dark mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden">
         <div class="my-3 p-3">
-          <h2 class="display-5">...something goes here...</h2>
-          <p class="lead">...something goes here...</p>
+          <h2 class="display-5">Modeling Results</h2>
+          <p class="lead">We compared the results of four machine learning algorithms including Linear Regression, Ridge Regression, LASSO, and Decision Tree using the Root Mean Square Error (RMSE) as decision metric. It can been seen that Decision Tree has the relatively best accuracy, indicating the effects of features could be non-linear. Random Forest could be further applied to improve decision tree model.</p>
         </div>
-        <div class="bg-light shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;">
+        <div class="bg-light shadow-sm mx-auto" style="width:auto; height: 300px; border-radius: 21px 21px 0 0;" id="ml_bar">
           <!-- <img src="{{ url_for('static', filename='/assets/img/data_cleanup_sample.png') }}" width="500" height="450"> -->
         </div>
       </div>
       <div class="bg-dark mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden">
         <div class="my-3 py-3">
-          <h2 class="display-5">...something goes here...</h2>
-          <p class="lead">...something goes here...</p>
+          <h2 class="display-5">Prediction Output</h2>
+          <p class="lead">Sales prediction were calcualted through Decision Tree model.</p>
         </div>
-        <div class="bg-light shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;">
+        <!-- <div class="bg-light shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;" id="predictionTB"> -->
           <!-- <img src="{{ url_for('static', filename='/assets/img/features_engineering_sample.JPG') }}" width="500" height="450"> -->
+        <!-- </div> -->
+        <div id="" class="table-responsive table-wrapper-scroll-y text-dark">
+          <table id="prediction-table" class="table  table-light table-striped">
+            <thead class="thead-light">
+              <tr>
+                
+                <th class="table-head">item_MRP</th>
+                <th class="table-head">item_fat_content</th>
+                <th class="table-head">item_sales</th>  
+                <th class="table-head">item_type</th>
+                <th class="table-head">item_visibility_mean_ratio</th>
+                <th class="table-head">outlet_location_type</th>
+                <th class="table-head">outlet_size</th>
+                <th class="table-head">outlet_type</th>
+                <th class="table-head">outlet_years</th>
+              </tr>
+            </thead>
+            <tbody id="predictionTB">
+                <!-- start here and append table content from js-->
+            </tbody>
+          </table>
         </div>
+
       </div>
     </div>
 
@@ -153,7 +175,7 @@
       <div class="row">
         <div class="col-12 col-md">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="d-block mb-2"><circle cx="12" cy="12" r="10"></circle><line x1="14.31" y1="8" x2="20.05" y2="17.94"></line><line x1="9.69" y1="8" x2="21.17" y2="8"></line><line x1="7.38" y1="12" x2="13.12" y2="2.06"></line><line x1="9.69" y1="16" x2="3.95" y2="6.06"></line><line x1="14.31" y1="16" x2="2.83" y2="16"></line><line x1="16.62" y1="12" x2="10.88" y2="21.94"></line></svg>
-          <small class="d-block mb-3 text-muted">&copy; 2018</small>
+          <small class="d-block mb-3 text-muted">&copy; 2018, created by Jia Fan, Lucas Liang, Nicola Lin, Ryan Huang and Tom Chang</small>
           <!-- <img src="/assets/img/test_jointplot.png" width="500" height="450"> -->
           
         </div>
@@ -215,13 +237,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
+    <script src="http://tablesorter.com/addons/pager/jquery.tablesorter.pager.js"></script>
 
     <!-- <script src="/assets/js/boxplot.js"></script> --> 
-    <script src="{{ url_for('static', filename='/assets/js/boxplot.js') }}"></script>
+    <!-- <script src="{{ url_for('static', filename='/assets/js/boxplot.js') }}"></script> -->
     <!-- <script src="/assets/js/heatmap.js"></script> -->
-    <script src="{{ url_for('static', filename='/assets/js/heatmap.js') }}"></script>
+    <!-- <script src="{{ url_for('static', filename='/assets/js/heatmap.js') }}"></script> -->
+    <!-- <script src="/assets/js/ml_bar.js"></script> -->
+    <script src="{{ url_for('static', filename='/assets/js/ml_bar.js') }}"></script>
+    <script src="{{ url_for('static', filename='/assets/js/ml_table.js') }}"></script>
     <!-- <script src="/assets/js/app.js"></script> -->
-    <script src="{{ url_for('static', filename='/assets/js/app.js') }}"></script>
+    <script src="{{ url_for('static', filename='/assets/js/ml_app.js') }}"></script>
     
     <script>
       Holder.addTheme('thumb', {

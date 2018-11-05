@@ -26,7 +26,7 @@
         </a>
         <a class="py-2 d-none d-md-inline-block" href="{{ url_for('index') }}" style="color: white">Home</a>
         <a class="py-2 d-none d-md-inline-block" href="{{ url_for('ml_model') }}" >ML Model</a>
-        <a class="py-2 d-none d-md-inline-block" href="#" >About US</a>
+        <a class="py-2 d-none d-md-inline-block" href="{{ url_for('about') }}" >About US</a>
         <!-- <a class="py-2 d-none d-md-inline-block" href="#">Enterprise</a>
         <a class="py-2 d-none d-md-inline-block" href="#">Support</a>
         <a class="py-2 d-none d-md-inline-block" href="#">Pricing</a>
@@ -52,6 +52,18 @@
             different departments in Walmart stores around the US.</p>
       </div> -->
       
+    </div>
+
+    <div class="bg-dark d-md-flex flex-md-equal w-100 my-md-3 pl-md-3 text-center text-white">
+      <h2 class="display-4">We Explore and Solve The Problem by The Following Stages</h2>
+  </div>
+
+    <div class="col-md-12 p-lg-12 mx-auto my-12" >
+      <!-- <p class="lead font-weight-normal" style="color: black"><small>We will explore and solve the problem by following stages:</small></p> -->
+      <p class="lead font-weight-normal" style="color: black"><small><strong>Data Exploration </strong>– looking at categorical and continuous feature summaries and making inferences about the data.</small></p>
+      <p class="lead font-weight-normal" style="color: black"><small><strong>Data Cleaning & Feature Engineering </strong>– imputing missing values in the data and checking for outliers; modifying existing variables and creating new ones for analysis.</small></p>
+      <p class="lead font-weight-normal" style="color: black"><small><strong>Model Building</strong>– Using different methodologies, clustering, regression and decision tree, making predictive models on the data.</small></p>
+      <!-- <a class="btn btn-outline-secondary" href="#">Coming soon</a> -->
     </div>
 
     <div class="bg-dark d-md-flex flex-md-equal w-100 my-md-3 pl-md-3 text-center text-white">
@@ -85,7 +97,7 @@
         </div>
         <div class="col-md-6 text-left bg-light shadow-sm mx-auto">
             <h2 class="display-5">Average Item Sales per Outlet:</h2>
-            <p>...something goes here...</p>
+            <p>We can see the total items sold in the 10 outlets in this bar chart. The average sales per item does not show much difference.</p>
             <br>
             <!-- <img src="/assets/img/test_jointplot.png" width="500" height="450"> -->
             <!-- <div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3"> -->
@@ -103,7 +115,7 @@
   <div class="row">
       <div class="col-md-6 text-left bg-light shadow-sm mx-auto">
           <h2 class="display-5">Pie Chart</h2>
-          <p>...something goes here...</p>
+          <p>The pie chart summarizes all outlets’ company total sales revenue. Apparently. Two of them have very low revenue so we need to investigate what factor affect the sales.</p>
                   <canvas id="doughnut"></canvas>
               </div>
        
@@ -140,7 +152,7 @@
       <div class="bg-dark mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden">
         <div class="my-3 py-3">
           <h2 class="display-5">Exploratory Analysis Using Boxplot</h2>
-          <p class="lead">We will use boxplots to determine how to remove outliers of the data</p>
+          <p class="lead">We use boxplots to determine how to remove outliers of the data</p>
           <div class="row">
           <div class="column">
           <p>Grouping Factors</p>
@@ -213,7 +225,7 @@
       <div class="row">
         <div class="col-12 col-md">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="d-block mb-2"><circle cx="12" cy="12" r="10"></circle><line x1="14.31" y1="8" x2="20.05" y2="17.94"></line><line x1="9.69" y1="8" x2="21.17" y2="8"></line><line x1="7.38" y1="12" x2="13.12" y2="2.06"></line><line x1="9.69" y1="16" x2="3.95" y2="6.06"></line><line x1="14.31" y1="16" x2="2.83" y2="16"></line><line x1="16.62" y1="12" x2="10.88" y2="21.94"></line></svg>
-          <small class="d-block mb-3 text-muted">&copy; 2018</small>
+          <small class="d-block mb-3 text-muted">&copy; 2018, created by Jia Fan, Lucas Liang, Nicola Lin, Ryan Huang and Tom Chang</small>
           <!-- <img src="/assets/img/test_jointplot.png" width="500" height="450"> -->
           
         </div>

@@ -7,6 +7,8 @@ import pymysql
 import json
 #import csv
 import model_info
+import model_xy
+import reverseDummy
 
 from flask import Flask
 from flask import jsonify
@@ -53,7 +55,7 @@ Train_data = Base.classes.train_tb
 Test_data = Base.classes.test_tb
 
 #################################################
-# Route Setup
+# Webpage Route Setup
 #################################################
 
 #Return the homepage
@@ -65,6 +67,15 @@ def index():
 @app.route("/ml_model")
 def ml_model():
     return render_template("ml_model.html")
+
+@app.route("/about")
+def about():
+    return render_template("about_us.html")
+
+
+#################################################
+# API Setup
+#################################################
 # possible api routes:
 # /api/data/train
 # /api/data/test
@@ -260,7 +271,7 @@ def model_stats():
     train_df = pd.DataFrame(train_results)
 
     #call linear regression summary
-    linear_regression = model_info.sklearn_model(train_df)
+    linear_regression = model_info.linear_model(train_df)
     #call ridge regression summary
     ridge_regression = model_info.ridge_model(train_df)
     #call lasso regression summary
@@ -276,6 +287,40 @@ def model_stats():
 
     return jsonify(model_summary_json)
 
+
+#Return ml model's x and y for residual plots
+@app.route("/api/data/models/xy")
+def model_xy_values():
+
+    #open session for querying the data from sqlite
+    session = Session()
+    #querying train table from sqlite
+    train_results = session.query(Train_data.key, Train_data.item_fat_content,Train_data.item_identifier, Train_data.item_MRP
+                             ,Train_data.item_outlet_sales,Train_data.item_type, Train_data.item_weight, Train_data.outlet_identifier
+                             ,Train_data.outlet_location_type,Train_data.outlet_size,Train_data.outlet_type,Train_data.source
+                             ,Train_data.outlet_years,Train_data.item_visibility_mean_ratio).all()
+    #close session
+    session.close()
+
+    #convert sql result to df
+    train_df = pd.DataFrame(train_results)
+
+    #call linear regression summary
+    linear_regression_xy = model_xy.linear_xy_model(train_df)
+    #call ridge regression summary
+    ridge_regression_xy = model_xy.ridge_xy_model(train_df)
+    #call lasso regression summary
+    lasso_regression_xy = model_xy.lasso_xy_model(train_df)
+    #call decision tree summary
+    decision_tree_xy = model_xy.dec_tree_xy_model(train_df)
+
+    #union all dataframes
+    model_xy_df = pd.concat([linear_regression_xy,ridge_regression_xy,lasso_regression_xy,decision_tree_xy],ignore_index = True)
+
+    #jsonfy dataframes
+    model_xy_json = json.loads(model_xy_df.to_json(orient='records'))
+
+    return jsonify(model_xy_json)
 
 #Return decision tree prediction
 @app.route("/api/data/models/dec_tree/prediction")
@@ -302,6 +347,21 @@ def dec_tree_predict():
 
     #call decision tree prediction
     dec_tree_prediction = model_info.dec_tree_prediction(train_df,test_df)
+
+    #create columns and run reverse engineering for each dummy features from prediction result
+    dec_tree_prediction['item_fat_content'] = dec_tree_prediction.apply(reverseDummy.reverseFatContent,axis=1)
+    dec_tree_prediction['item_type'] = dec_tree_prediction.apply(reverseDummy.reverseItemType,axis=1)
+    dec_tree_prediction['outlet_location_type'] = dec_tree_prediction.apply(reverseDummy.reverseLocationType,axis=1)
+    dec_tree_prediction['outlet_size'] = dec_tree_prediction.apply(reverseDummy.reverseOutletSize,axis=1)
+    dec_tree_prediction['outlet_type'] = dec_tree_prediction.apply(reverseDummy.reverseOutletType,axis=1)
+
+    #drop dummy features/columns
+    dec_tree_prediction = dec_tree_prediction.drop(['item_fat_content_Low Fat','item_fat_content_Non-Edible','item_fat_content_Regular'
+                                    ,'item_type_Drink','item_type_Food','item_type_Non-consumable','outlet_location_type_Tier 1'
+                                    ,'outlet_location_type_Tier 2','outlet_location_type_Tier 3','outlet_size_High'
+                                    ,'outlet_size_Medium','outlet_size_Small','outlet_type_Grocery Store'
+                                    ,'outlet_type_Supermarket Type1','outlet_type_Supermarket Type2'
+                                    ,'outlet_type_Supermarket Type3'], axis=1)
     
     #jsonfy dataframes
     dec_tree_prediction_json = json.loads(dec_tree_prediction.to_json(orient='records'))

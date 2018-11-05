@@ -241,6 +241,8 @@ function init() {
   doughnutChart();
   boxPlots();
   heatmapplot();
+  heatmapplot();
+  mlBarPlots();
 };
 
 // Initialize the app
