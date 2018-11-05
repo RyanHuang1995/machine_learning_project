@@ -6,6 +6,8 @@ import sqlalchemy
 import pymysql
 import json
 import csv
+import model_info
+import model_xy
 
 from flask import Flask
 from flask import jsonify
@@ -52,8 +54,15 @@ Test_data = Base.classes.test
 def index():
     return render_template("index.html")
 
+#Return the machine learning model page
+@app.route("/ml_model")
+def ml_model():
+    return render_template("ml_model.html")
 
-
+@app.route("/about")
+def about():
+    return render_template("about_us.html")
+    
 # possible api routes:
 # /api/data/train
 # /api/data/test
@@ -226,6 +235,109 @@ def item_sales():
         list.append(dict2)
 
     return jsonify(list)
+
+
+#Return ml model's R^2 and RMSE
+@app.route("/api/data/models/summary")
+def model_stats():
+
+    #open session for querying the data from sqlite
+    session = Session()
+    #querying train table from sqlite
+    train_results = session.query(Train_data.item_fat_content,Train_data.item_identifier, Train_data.item_MRP
+                             ,Train_data.item_outlet_sales,Train_data.item_type, Train_data.item_weight, Train_data.outlet_identifier
+                             ,Train_data.outlet_location_type,Train_data.outlet_size,Train_data.outlet_type,Train_data.source
+                             ,Train_data.outlet_years,Train_data.item_visibility_mean_ratio).all()
+    #close session
+    session.close()
+
+    #convert sql result to df
+    train_df = pd.DataFrame(train_results)
+
+    #call linear regression summary
+    linear_regression = model_info.linear_model(train_df)
+    #call ridge regression summary
+    ridge_regression = model_info.ridge_model(train_df)
+    #call lasso regression summary
+    lasso_regression = model_info.lasso_model(train_df)
+    #call decision tree summary
+    decision_tree = model_info.dec_tree_model(train_df)
+
+    #union all dataframes
+    model_summary_df = pd.concat([linear_regression,ridge_regression,lasso_regression,decision_tree],ignore_index = True)
+
+    #jsonfy dataframes
+    model_summary_json = json.loads(model_summary_df.to_json(orient='records'))
+
+    return jsonify(model_summary_json)
+
+#Return ml model's x and y for residual plots
+@app.route("/api/data/models/xy")
+def model_xy_values():
+
+    #open session for querying the data from sqlite
+    session = Session()
+    #querying train table from sqlite
+    train_results = session.query(Train_data.primary_key, Train_data.item_fat_content,Train_data.item_identifier, Train_data.item_MRP
+                             ,Train_data.item_outlet_sales,Train_data.item_type, Train_data.item_weight, Train_data.outlet_identifier
+                             ,Train_data.outlet_location_type,Train_data.outlet_size,Train_data.outlet_type,Train_data.source
+                             ,Train_data.outlet_years,Train_data.item_visibility_mean_ratio).all()
+    #close session
+    session.close()
+
+    #convert sql result to df
+    train_df = pd.DataFrame(train_results)
+
+    #call linear regression summary
+    linear_regression_xy = model_xy.linear_xy_model(train_df)
+    #call ridge regression summary
+    ridge_regression_xy = model_xy.ridge_xy_model(train_df)
+    #call lasso regression summary
+    lasso_regression_xy = model_xy.lasso_xy_model(train_df)
+    #call decision tree summary
+    decision_tree_xy = model_xy.dec_tree_xy_model(train_df)
+
+    #union all dataframes
+    model_xy_df = pd.concat([linear_regression_xy,ridge_regression_xy,lasso_regression_xy,decision_tree_xy],ignore_index = True)
+
+    #jsonfy dataframes
+    model_xy_json = json.loads(model_xy_df.to_json(orient='records'))
+
+    return jsonify(model_xy_json)
+
+#Return decision tree prediction
+@app.route("/api/data/models/dec_tree/prediction")
+def dec_tree_predict():
+
+    #open session for querying the data from sqlite
+    session = Session()
+    #querying train table from sqlite
+    train_results = session.query(Train_data.primary_key, Train_data.item_fat_content,Train_data.item_identifier, Train_data.item_MRP
+                             ,Train_data.item_outlet_sales,Train_data.item_type, Train_data.item_weight, Train_data.outlet_identifier
+                             ,Train_data.outlet_location_type,Train_data.outlet_size,Train_data.outlet_type,Train_data.source
+                             ,Train_data.outlet_years,Train_data.item_visibility_mean_ratio).all()
+    session.close()
+
+    session = Session()
+    test_results = session.query(Test_data.primary_key, Test_data.item_fat_content,Test_data.item_identifier, Test_data.item_MRP
+                             ,Test_data.item_outlet_sales,Test_data.item_type, Test_data.item_weight, Test_data.outlet_identifier
+                             ,Test_data.outlet_location_type,Test_data.outlet_size,Test_data.outlet_type,Test_data.source
+                             ,Test_data.outlet_years,Test_data.item_visibility_mean_ratio).all()
+    #close session
+    session.close()
+
+    #convert sql result to df
+    train_df = pd.DataFrame(train_results)
+    test_df = pd.DataFrame(test_results)
+
+    #call decision tree prediction
+    dec_tree_prediction = model_info.dec_tree_prediction(train_df,test_df)
+    
+    #jsonfy dataframes
+    dec_tree_prediction_json = json.loads(dec_tree_prediction.to_json(orient='records'))
+
+    return jsonify(dec_tree_prediction_json)
+
 
 #################################################
 # End of Route setup
